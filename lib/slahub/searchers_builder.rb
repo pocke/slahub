@@ -17,10 +17,6 @@ module Slahub
       end
     end
 
-    private def github_access_token
-      raise NotImplementedError
-    end
-
     private def github_client
       @github_client ||= begin
         access_token = config['github_access_token']

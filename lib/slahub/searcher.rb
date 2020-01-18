@@ -10,6 +10,7 @@ module Slahub
       # TODO
       last_updated_at = Time.now
       p last_updated_at
+      raise NotImplementedError
     end
   end
 end
