@@ -11,7 +11,7 @@ module Slahub
 
         Searcher.new(
           query: query,
-          github_v3_client: github_v3_client,
+          github_client: github_client,
           issue_to_channel: -> (_issue) { channel }
         )
       end
@@ -21,8 +21,11 @@ module Slahub
       raise NotImplementedError
     end
 
-    private def github_v3_client
-      raise NotImplementedError
+    private def github_client
+      @github_client ||= begin
+        access_token = config['github_access_token']
+        GithubClient.new(github_access_token: access_token)
+      end
     end
 
     private def queries

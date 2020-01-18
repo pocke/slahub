@@ -1,3 +1,5 @@
 #!ruby
 
+require 'slahub'
+
 Slahub::CLI.new(ARGV).run
