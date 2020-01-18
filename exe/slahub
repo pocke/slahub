@@ -1,0 +1,3 @@
+#!ruby
+
+Slahub::CLI.new(ARGV).run
