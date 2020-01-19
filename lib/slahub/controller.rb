@@ -8,10 +8,16 @@ module Slahub
       github_client = build_github_client
 
       searchers = SearchersBuilder.new(config: @config, github_client: github_client).build
-      searchers.cycle.each do |s|
-        # TODO
-        s.search(last_updated_at: Time.now - 60 * 60 * 24)
+      searchers.each do |s|
+        Thread.new do
+          # TODO
+          loop do
+            s.search(last_updated_at: Time.now - 60 * 60 * 24)
+          end
+        end
       end
+
+      sleep
     end
 
     private def build_github_client
