@@ -33,9 +33,11 @@ module Slahub
         end
       end
 
+      # TODO: Load schema from cached file
       schema = GraphQL::Client.dump_schema(http, context: { github_access_token: @github_access_token })
 
-      GraphQL::Client.new(schema: schema, execute: http)
+      client = GraphQL::Client.new(schema: schema, execute: http)
+      ThrottledDelegator.new(wait: 1, concurrency: 2, to: client)
     end
   end
 end
