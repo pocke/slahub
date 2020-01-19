@@ -7,12 +7,16 @@ module Slahub
     def run
       github_client = build_github_client
 
+      search_result_queue = Thread::Queue.new
+
       searchers = SearchersBuilder.new(config: @config, github_client: github_client).build
       searchers.each do |s|
         Thread.new do
-          # TODO
           loop do
-            s.search(last_updated_at: Time.now - 60 * 60 * 24)
+            # TODO: set last_updated_at
+            s.search(last_updated_at: Time.now - 60 * 60 * 24).each do |result|
+              search_result_queue << result
+            end
           end
         end
       end

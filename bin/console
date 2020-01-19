@@ -11,4 +11,8 @@ require "slahub"
 # Pry.start
 
 require "irb"
+
+$config = Slahub::ConfigLoader.load
+$client = Slahub::GithubClient.new(github_access_token: $config['github_access_token'])
+
 IRB.start(__FILE__)

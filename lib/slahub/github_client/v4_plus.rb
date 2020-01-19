@@ -21,13 +21,46 @@ module Slahub
       ISSUE_TIMELINE_ITEMS_QUERY = <<~GRAPHQL
         query($issueId: ID!, $first: Int!, $after: String) {
           node(id: $issueId) {
-            timelineItems(first: $first, after: $after) {
-              nodes {
-                // TODO
+            __typename
+            ... on Issue {
+              timelineItems(first: $first, after: $after, itemTypes: [ISSUE_COMMENT]) {
+                nodes {
+                  __typename
+                  ... on IssueComment {
+                    bodyText
+                    author {
+                      login
+                    }
+                  }
+                }
+                pageInfo {
+                  endCursor
+                  hasNextPage
+                }
               }
-              pageInfo {
-                endCursor
-                hasNextPage
+            }
+
+            ... on PullRequest {
+              timelineItems(first: $first, after: $after, itemTypes: [ISSUE_COMMENT, PULL_REQUEST_REVIEW]) {
+                nodes {
+                  __typename
+                  ... on IssueComment {
+                    bodyText
+                    author {
+                      login
+                    }
+                  }
+                  ... on PullRequestReview {
+                    bodyText
+                    author {
+                      login
+                    }
+                  }
+                }
+                pageInfo {
+                  endCursor
+                  hasNextPage
+                }
               }
             }
           }
@@ -52,6 +85,11 @@ module Slahub
         end
 
         repos
+      end
+
+      # TODO: pagination
+      def timeline_items(id)
+        @low_client.execute query: ISSUE_TIMELINE_ITEMS_QUERY, variables: { first: 100, issueId: id }
       end
     end
   end
