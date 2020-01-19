@@ -21,6 +21,7 @@ module Slahub
         builder.response :logger
         builder.adapter Faraday.default_adapter
       end
+
       ThrottledDelegator.new(wait: 10, concurrency: 2, to: client)
     end
 

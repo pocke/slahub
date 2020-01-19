@@ -1,7 +1,10 @@
 require 'yaml'
-require 'octokit'
 require 'time'
 require 'json'
+require 'logger'
+require 'benchmark'
+
+require 'octokit'
 
 require 'slahub/cli'
 require 'slahub/config_loader'
@@ -17,4 +20,8 @@ require 'slahub/version'
 module Slahub
   class Error < StandardError; end
   # Your code goes here...
+
+  def self.logger
+    @logger ||= Logger.new(STDOUT)
+  end
 end
