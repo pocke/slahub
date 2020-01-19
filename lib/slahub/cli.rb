@@ -5,11 +5,8 @@ module Slahub
     end
 
     def run
+      config = ConfigLoader.load
       Controller.new(config).run
-    end
-
-    private def config
-      @config ||= YAML.load_file(File.expand_path("~/.config/slahub/slahub.yaml"))
     end
   end
 end
