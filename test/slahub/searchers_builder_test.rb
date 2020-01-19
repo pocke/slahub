@@ -6,8 +6,9 @@ class SearcherBuilderTest < Minitest::Test
       'github_access_token' => "xxxx",
       'queries' => [],
     }
+    github_client_stub = nil
 
-    searchers = Slahub::SearchersBuilder.new(config).build
+    searchers = Slahub::SearchersBuilder.new(config: config, github_client: github_client_stub).build
     assert searchers.empty?
   end
 
@@ -19,8 +20,9 @@ class SearcherBuilderTest < Minitest::Test
         { "query" => "user:rubocop-hq", 'channel' => 'github-rubocop', 'priority' => 80 },
       ],
     }
+    github_client_stub = nil
 
-    searchers = Slahub::SearchersBuilder.new(config).build
+    searchers = Slahub::SearchersBuilder.new(config: config, github_client: github_client_stub).build
     assert_equal 2, searchers.size
     assert(searchers.all? { |s| s.is_a? Slahub::Searcher })
   end
