@@ -8,6 +8,6 @@ class GithubClientTest < Minitest::Test
 
   def test_v4
     client = Slahub::GithubClient.new(github_access_token: 'xxx')
-    assert client.v4.respond_to?(:execute)
+    assert client.v4.respond_to?(:all_watching_repositories)
   end
 end
