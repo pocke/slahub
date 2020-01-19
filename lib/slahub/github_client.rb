@@ -14,6 +14,13 @@ module Slahub
 
     private def build_v3_search
       client = Octokit::Client.new(access_token: @github_access_token)
+      client.middleware = Faraday::RackBuilder.new do |builder|
+        builder.use ::Octokit::Middleware::FollowRedirects
+        builder.use ::Octokit::Response::RaiseError
+        builder.use ::Octokit::Response::FeedParser
+        builder.response :logger
+        builder.adapter Faraday.default_adapter
+      end
       ThrottledDelegator.new(wait: 10, concurrency: 2, to: client)
     end
   end

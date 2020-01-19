@@ -7,7 +7,15 @@ module Slahub
     end
 
     def search(last_updated_at:)
-      raise NotImplementedError
+      last_updated_at = last_updated_at.dup
+      last_updated_at.utc
+      q = build_query(last_updated_at: last_updated_at)
+      @github_client.v3_search.search_issues(q, sort: 'updated', order: 'asc', per_page: 100)
+    end
+
+    def build_query(last_updated_at:)
+      updated = last_updated_at.iso8601
+      "#{@query} updated:>=#{updated}"
     end
   end
 end
