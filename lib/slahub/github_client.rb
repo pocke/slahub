@@ -25,7 +25,8 @@ module Slahub
     end
 
     private def build_v4
-      raise NotImplementedError
+      client = V4.new(github_access_token: @github_access_token)
+      ThrottledDelegator.new(wait: 1, concurrency: 2, to: client)
     end
   end
 end

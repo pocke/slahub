@@ -5,4 +5,9 @@ class GithubClientTest < Minitest::Test
     client = Slahub::GithubClient.new(github_access_token: 'xxx')
     assert client.v3_search.respond_to?(:search_issues)
   end
+
+  def test_v4
+    client = Slahub::GithubClient.new(github_access_token: 'xxx')
+    assert client.v4.respond_to?(:execute)
+  end
 end
