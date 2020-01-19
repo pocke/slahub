@@ -18,6 +18,22 @@ module Slahub
         }
       GRAPHQL
 
+      ISSUE_TIMELINE_ITEMS_QUERY = <<~GRAPHQL
+        query($issueId: ID!, $first: Int!, $after: String) {
+          node(id: $issueId) {
+            timelineItems(first: $first, after: $after) {
+              nodes {
+                // TODO
+              }
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
+            }
+          }
+        }
+      GRAPHQL
+
       def initialize(low_client:)
         @low_client = low_client
       end
