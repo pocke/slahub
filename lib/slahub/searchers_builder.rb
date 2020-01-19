@@ -52,7 +52,7 @@ module Slahub
           qs << q
           q = +''
         else
-          q << "repo:#{repo[:nameWithOwner]}"
+          q << "repo:#{repo[:nameWithOwner]} "
         end
       end
       qs << q unless q.empty?

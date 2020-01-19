@@ -15,7 +15,7 @@ module Slahub
     end
 
     private def build_github_client
-      access_token = config['github_access_token']
+      access_token = @config['github_access_token']
       GithubClient.new(github_access_token: access_token)
     end
   end
