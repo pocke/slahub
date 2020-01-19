@@ -9,6 +9,7 @@ module Slahub
 
       searchers = SearchersBuilder.new(config: @config, github_client: github_client).build
       searchers.cycle.each do |s|
+        # TODO
         s.search(last_updated_at: Time.now - 60 * 60 * 24)
       end
     end
