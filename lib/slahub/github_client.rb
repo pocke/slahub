@@ -25,19 +25,7 @@ module Slahub
     end
 
     private def build_v4
-      http = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
-        def headers(context)
-          {
-            "Authorization" => "Bearer #{context[:github_access_token]}"
-          }
-        end
-      end
-
-      # TODO: Load schema from cached file
-      schema = GraphQL::Client.dump_schema(http, context: { github_access_token: @github_access_token })
-
-      client = GraphQL::Client.new(schema: schema, execute: http)
-      ThrottledDelegator.new(wait: 1, concurrency: 2, to: client)
+      raise NotImplementedError
     end
   end
 end
