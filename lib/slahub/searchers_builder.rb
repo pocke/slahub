@@ -5,6 +5,8 @@ module Slahub
     end
 
     def build
+      github_client = build_github_client
+
       queries.map do |q|
         query = q['query']
         channel = q['channel']
@@ -17,11 +19,9 @@ module Slahub
       end
     end
 
-    private def github_client
-      @github_client ||= begin
-        access_token = config['github_access_token']
-        GithubClient.new(github_access_token: access_token)
-      end
+    private def build_github_client
+      access_token = config['github_access_token']
+      GithubClient.new(github_access_token: access_token)
     end
 
     private def queries
