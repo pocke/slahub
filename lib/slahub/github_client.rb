@@ -26,7 +26,8 @@ module Slahub
 
     private def build_v4
       client = V4.new(github_access_token: @github_access_token)
-      ThrottledDelegator.new(wait: 1, concurrency: 2, to: client)
+      delegated = ThrottledDelegator.new(wait: 1, concurrency: 2, to: client)
+      V4Plus.new(low_client: delegated)
     end
   end
 end
