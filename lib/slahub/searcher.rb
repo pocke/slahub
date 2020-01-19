@@ -6,10 +6,7 @@ module Slahub
       @issue_to_channel = issue_to_channel
     end
 
-    def search
-      # TODO
-      last_updated_at = Time.now
-      p last_updated_at
+    def search(last_updated_at:)
       raise NotImplementedError
     end
   end
