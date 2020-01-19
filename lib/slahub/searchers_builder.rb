@@ -6,7 +6,7 @@ module Slahub
     end
 
     def build
-      queries.map do |q|
+      queries.flat_map do |q|
         query = q['query']
         channel = q['channel']
 

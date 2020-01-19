@@ -1,6 +1,8 @@
 require 'yaml'
 require 'octokit'
 require 'time'
+require 'graphql/client'
+require 'graphql/client/http'
 
 require "slahub/version"
 require 'slahub/cli'

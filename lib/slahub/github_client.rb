@@ -9,7 +9,7 @@ module Slahub
     end
 
     def v4
-      raise NotImplementedError
+      @v4 ||= build_v4
     end
 
     private def build_v3_search
@@ -22,6 +22,20 @@ module Slahub
         builder.adapter Faraday.default_adapter
       end
       ThrottledDelegator.new(wait: 10, concurrency: 2, to: client)
+    end
+
+    private def build_v4
+      http = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
+        def headers(context)
+          {
+            "Authorization" => "Bearer #{context[:github_access_token]}"
+          }
+        end
+      end
+
+      schema = GraphQL::Client.dump_schema(http, context: { github_access_token: @github_access_token })
+
+      GraphQL::Client.new(schema: schema, execute: http)
     end
   end
 end
