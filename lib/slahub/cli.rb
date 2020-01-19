@@ -5,8 +5,7 @@ module Slahub
     end
 
     def run
-      searchers = SearchersBuilder.new(config).build
-      p searchers
+      Controller.new(config).run
     end
 
     private def config
