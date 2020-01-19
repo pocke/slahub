@@ -1,5 +1,28 @@
 module Slahub
   class GithubClient
+    class LoggerMiddleware < Faraday::Middleware
+      def call(request_env)
+        resp = nil
+        log_request request_env
+        time = Benchmark.realtime do
+          resp = @app.call(request_env)
+        end
+        resp.on_complete do |response_env|
+          log_response response_env, time
+        end
+      end
+
+      private def log_request(env)
+        method = env.method.to_s.upcase
+        Slahub.logger.info "--> #{method} #{env.url}"
+      end
+
+      private def log_response(env, time)
+        t = time > 1 ? "#{time.round(2)}s" : "#{(time * 1000).round(2)}ms"
+        Slahub.logger.info "<-- #{env.status} #{env.url} (#{t})"
+      end
+    end
+
     def initialize(github_access_token:)
       @github_access_token = github_access_token
     end
@@ -18,7 +41,7 @@ module Slahub
         builder.use ::Octokit::Middleware::FollowRedirects
         builder.use ::Octokit::Response::RaiseError
         builder.use ::Octokit::Response::FeedParser
-        builder.response :logger
+        builder.use LoggerMiddleware
         builder.adapter Faraday.default_adapter
       end
 
