@@ -1,5 +1,6 @@
 require 'yaml'
 require 'octokit'
+require 'time'
 
 require "slahub/version"
 require 'slahub/cli'

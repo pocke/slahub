@@ -44,7 +44,7 @@ module Slahub
     end
 
     def respond_to_missing?(name, include_private)
-      @to.respond_to_missing?(name, include_private)
+      @to.respond_to?(name, include_private)
     end
   end
 end

@@ -11,6 +11,11 @@ class ThrottledDelegatorTest < Minitest::Test
     assert_equal 42, d.m(42)
   end
 
+  def test_respond_to?
+    d = Slahub::ThrottledDelegator.new(wait: 0, concurrency: 1, to: C.new)
+    assert d.respond_to?(:m)
+  end
+
   def test_throttled_call
     d = Slahub::ThrottledDelegator.new(wait: 0.1, concurrency: 1, to: C.new)
     t = Benchmark.realtime do
