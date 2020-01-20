@@ -5,6 +5,7 @@ require 'logger'
 require 'benchmark'
 
 require 'octokit'
+require 'active_record'
 
 require 'slahub/cli'
 require 'slahub/config_loader'
@@ -16,6 +17,9 @@ require 'slahub/searcher'
 require 'slahub/searchers_builder'
 require 'slahub/throttled_delegator'
 require 'slahub/version'
+require 'slahub/models/application_record'
+require 'slahub/models/query'
+require 'slahub/models/posted_issue'
 
 module Slahub
   class Error < StandardError; end

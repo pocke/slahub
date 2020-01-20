@@ -5,6 +5,8 @@ module Slahub
     end
 
     def run
+      Models::ApplicationRecord.establish_connection
+
       github_client = build_github_client
 
       search_result_queue = Thread::Queue.new

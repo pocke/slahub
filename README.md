@@ -20,9 +20,32 @@ Or install it yourself as:
 
     $ gem install slahub
 
+### Setup database
+
+* user: postgres
+* host: localhost
+* database: slahub
+
+First, create the database.
+
+```bash
+$ echo 'CREATE DATABASE slahub' | psql -U postgres -h localhost
+```
+
+Then, apply the schema to the created database.
+
+```bash
+# dry-run
+$ bundle exec ridgepole --file schema/Schemafile --config='postgres://postgres:@localhost:5432/slahub?encoding=utf8' --apply --dry-run
+# apply
+$ bundle exec ridgepole --file schema/Schemafile --config='postgres://postgres:@localhost:5432/slahub?encoding=utf8' --apply
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+$ DATABASE_URL='postgres://postgres:@localhost:5432/slahub?encoding=utf8' slahub
+```
 
 ## Development
 
