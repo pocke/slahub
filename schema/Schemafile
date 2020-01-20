@@ -2,7 +2,7 @@
 
 create_table 'queries', force: :cascade do |t|
   t.text 'query', null: false
-  t.datetime 'newest_event_updated_at', null: true
+  t.datetime 'newest_issue_updated_at', null: false
   t.index ['query'], name: 'index_queries_query'
 end
 

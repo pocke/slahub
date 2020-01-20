@@ -72,24 +72,32 @@ module Slahub
       end
 
       def all_watching_repositories
-        after = nil
-        has_next_page = true
-        repos = []
-
-        while has_next_page
-          resp = @low_client.execute query: WATCHING_REPOSITORIES_QUERY, variables: { first: 100, after: after }
-          watching = resp[:data][:viewer][:watching]
-          repos.concat watching[:nodes]
-          has_next_page = watching[:pageInfo][:hasNextPage]
-          after = watching[:pageInfo][:endCursor]
+        paginate do |after|
+          resp = @low_client.execute(query: WATCHING_REPOSITORIES_QUERY, variables: { first: 100, after: after })
+          resp[:data][:viewer][:watching]
         end
-
-        repos
       end
 
-      # TODO: pagination
       def timeline_items(id)
-        @low_client.execute query: ISSUE_TIMELINE_ITEMS_QUERY, variables: { first: 100, issueId: id }
+        paginate do |after|
+          resp = @low_client.execute query: ISSUE_TIMELINE_ITEMS_QUERY, variables: { first: 100, issueId: id }
+          resp[:data][:node][:timelineItems]
+        end
+      end
+
+      def paginate(&block)
+        after = nil
+        has_next_page = true
+        nodes = []
+
+        while has_next_page
+          connection = block.call(after)
+          nodes.concat connection[:nodes]
+          has_next_page = connection[:pageInfo][:hasNextPage]
+          after = connection[:pageInfo][:endCursor]
+        end
+
+        nodes
       end
     end
   end

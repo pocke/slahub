@@ -43,9 +43,12 @@ $ bundle exec ridgepole --file schema/Schemafile --config='postgres://postgres:@
 
 ## Usage
 
+
 ```bash
-$ DATABASE_URL='postgres://postgres:@localhost:5432/slahub?encoding=utf8' slahub
+$ DATABASE_URL='postgres://postgres:@localhost:5432/slahub?encoding=utf8&pool=1000' slahub
 ```
+
+I strongly recommend to increase the pool size. Because Slahub create many threads.
 
 ## Development
 
