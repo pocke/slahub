@@ -81,8 +81,7 @@ module Slahub
       def timeline_items(id)
         paginate do |after|
           resp = @low_client.execute query: ISSUE_TIMELINE_ITEMS_QUERY, variables: { first: 100, issueId: id }
-          node = resp[:data][:node]
-          (node[:issue] || node[:pullRequest])[:timelineItems]
+          resp[:data][:node][:timelineItems]
         end
       end
 
