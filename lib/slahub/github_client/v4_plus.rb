@@ -27,6 +27,7 @@ module Slahub
                 nodes {
                   __typename
                   ... on IssueComment {
+                    id
                     bodyText
                     author {
                       login
@@ -45,12 +46,14 @@ module Slahub
                 nodes {
                   __typename
                   ... on IssueComment {
+                    id
                     bodyText
                     author {
                       login
                     }
                   }
                   ... on PullRequestReview {
+                    id
                     bodyText
                     author {
                       login
@@ -78,15 +81,14 @@ module Slahub
         end
       end
 
-      def timeline_items(id)
-        paginate do |after|
+      def timeline_items(id, after: nil)
+        paginate(after) do |after|
           resp = @low_client.execute query: ISSUE_TIMELINE_ITEMS_QUERY, variables: { first: 100, issueId: id }
           resp[:data][:node][:timelineItems]
         end
       end
 
-      def paginate(&block)
-        after = nil
+      def paginate(after = nil, &block)
         has_next_page = true
         nodes = []
 
