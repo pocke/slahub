@@ -15,4 +15,8 @@ require "irb"
 $config = Slahub::ConfigLoader.load
 $client = Slahub::GithubClient.new(github_access_token: $config['github_access_token'])
 
+if ENV['DATABASE_URL']
+  Slahub::Models::ApplicationRecord.establish_connection
+end
+
 IRB.start(__FILE__)
