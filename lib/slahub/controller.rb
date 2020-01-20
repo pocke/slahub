@@ -42,10 +42,22 @@ module Slahub
             end
 
             items = github_client.v4.timeline_items(id, after: posted_issue.latest_event_id)
-            unless items.empty?
-              posted_issue.update!(latest_event_id: items.last)
+            next if items.empty?
+
+            posted_issue.update!(latest_event_id: items.last)
+            items.each.with_index do |item, idx|
+              case item[:__typename]
+              when 'PullRequestReview', 'IssueComment'
+                slack_client.chat_postMessage(
+                  channel: search_result.channel,
+                  text: "#{item[:bodyText]} by #{item[:author][:login]}",
+                  thread_ts: posted_issue.thread_ts,
+                  reply_broadcast: idx == items.size - 1,
+                )
+              else
+                raise "Unknown type: #{item[:__typename]}"
+              end
             end
-            pp items
           end
         end
       end
