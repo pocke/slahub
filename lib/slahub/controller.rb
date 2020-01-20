@@ -28,7 +28,9 @@ module Slahub
       3.times do
         with_thread do
           while search_result = search_result_queue.pop
-            p search_result.issue.node_id
+            id = search_result.issue.node_id
+            items = github_client.v4.timeline_items(id)
+            pp items
           end
         end
       end
