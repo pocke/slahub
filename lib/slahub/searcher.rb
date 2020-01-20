@@ -2,6 +2,8 @@ module Slahub
   class Searcher
     SearchResult = Struct.new(:issue, :channel, keyword_init: true)
 
+    attr_reader :query
+
     def initialize(query:, github_client:, issue_to_channel:)
       @query = query
       @github_client = github_client
@@ -19,7 +21,7 @@ module Slahub
 
     def build_query(last_updated_at:)
       updated = last_updated_at.iso8601
-      "#{@query} updated:>=#{updated}"
+      "#{query} updated:>=#{updated}"
     end
   end
 end
