@@ -1,0 +1,13 @@
+# vim: set filetype=ruby:
+
+create_table 'queries', force: :cascade do |t|
+  t.text 'query', null: false
+  t.datetime 'newest_event_updated_at', null: true
+  t.index ['query'], name: 'index_queries_query'
+end
+
+create_table 'posted_issues', force: :cascade do |t|
+  t.string 'node_id', null: false
+  t.string 'channel_name', null: false
+  t.string 'latest_event_id', null: false
+end
