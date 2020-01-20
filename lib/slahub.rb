@@ -6,6 +6,7 @@ require 'benchmark'
 
 require 'octokit'
 require 'active_record'
+require 'slack-ruby-client'
 
 require 'slahub/cli'
 require 'slahub/config_loader'
