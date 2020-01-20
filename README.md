@@ -43,7 +43,9 @@ $ bundle exec ridgepole --file schema/Schemafile --config='postgres://postgres:@
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+$ DATABASE_URL='postgres://postgres:@localhost:5432/slahub?encoding=utf8' slahub
+```
 
 ## Development
 
