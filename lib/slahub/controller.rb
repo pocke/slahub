@@ -29,7 +29,11 @@ module Slahub
         with_thread do
           while search_result = search_result_queue.pop
             id = search_result.issue.node_id
-            items = github_client.v4.timeline_items(id)
+            posted_issue = Models::PostedIssue.find_or_initialize_by(node_id: id, channel_name: search_result.channel)
+            items = github_client.v4.timeline_items(id, after: posted_issue.latest_event_id)
+            unless items.empty?
+              posted_issue.update!(latest_event_id: items.last)
+            end
             pp items
           end
         end
