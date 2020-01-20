@@ -25,6 +25,14 @@ module Slahub
         end
       end
 
+      3.times do
+        with_thread do
+          while search_result = search_result_queue.pop
+            p search_result.issue.node_id
+          end
+        end
+      end
+
       sleep
     end
 
